@@ -1,30 +1,27 @@
 # Travel App
-
 A simple travel app built using Expo and React Native.
 
 ## Prerequisites
-
 - [Node.js](https://nodejs.org/) installed on your machine.
 
 ## Installation Steps
 
 ### 1. Install Node.js
-
 First, make sure you have Node.js installed. If not, you can download and install it from the [official website](https://nodejs.org/).
 
 ### 2. Create an Expo App
-
 Run the following command to create a new Expo app using a blank template:
 
 npx create-expo-app@latest (name-of-your-folder) --template blank@latest <br>
 (Follow all the installions and instructions when shown on the terminal)
 
 ### 3. Install Required Dependencies
-npm install @react-navigation/native
-npm install @react-navigation/stack
-npm install react-native-gesture-handler
-npm install react-native-vector-icons
-npm install react-native-safe-area-context
+After creating your Expo app, navigate into your project folder and install the necessary dependencies by running these commands in your terminal: <br>
+npm install @react-navigation/native <br>
+npm install @react-navigation/stack <br>
+npm install react-native-gesture-handler <br>
+npm install react-native-vector-icons <br>
+npm install react-native-safe-area-context <br>
 
 ### 4. Start Expo App
 npx expo start
