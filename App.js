@@ -16,9 +16,29 @@ const HomeScreen = ({ navigation }) => {
     { id: '4', name: 'Boracay', description: 'Philippines', image: 'https://jocyls.com/wp-content/uploads/2023/06/where-is-boracay-located-in-aklan.jpg' },
   ];
 
+  const renderPlaceItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.placeItem}
+      onPress={() => navigation.navigate('Details', { place: item })}>
+      <Image 
+        source={{ uri: item.image }} 
+        style={styles.placeImage}
+        resizeMode="cover"
+      />
+      <View style={styles.placeTextContainer}>
+        <Text style={styles.placeName}>{item.name}</Text>
+        <Text style={styles.placeDescription}>{item.description}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
-      <Image source={profileImage} style={styles.image} />
+      <Image 
+        source={profileImage} 
+        style={styles.image}
+        resizeMode="cover"
+      />
       <Text style={styles.title}>Find your perfect place to travel.</Text>
       <TextInput
         style={styles.searchInput}
@@ -29,35 +49,29 @@ const HomeScreen = ({ navigation }) => {
         data={popularPlaces}
         numColumns={2}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.placeItem}
-            onPress={() => navigation.navigate('Details', { place: item })}>
-            <Image source={{ uri: item.image }} style={styles.placeImage} />
-            <Text style={styles.placeName}>{item.name}</Text>
-            <Text style={styles.placeDescription}>{item.description}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={renderPlaceItem}
+        contentContainerStyle={styles.listContainer}
       />
-      <StatusBar style="auto" />
       <View style={styles.navbar}>
-        <TouchableOpacity style={styles.navButton}>
-          <Ionicons name="home-outline" size={24} color="#007BFF" />
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <Ionicons name="airplane-outline" size={24} color="#000" />
-          <Text style={styles.navText}>Trips</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <Ionicons name="bookmark-outline" size={24} color="#000" />
-          <Text style={styles.navText}>Bookmark</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <Ionicons name="person-outline" size={24} color="#000" />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
+        {[
+          { name: 'home-outline', label: 'Home', active: true },
+          { name: 'airplane-outline', label: 'Trips' },
+          { name: 'bookmark-outline', label: 'Bookmark' },
+          { name: 'person-outline', label: 'Profile' }
+        ].map((item, index) => (
+          <TouchableOpacity key={index} style={styles.navButton}>
+            <Ionicons 
+              name={item.name} 
+              size={24} 
+              color={item.active ? '#007BFF' : '#000'} 
+            />
+            <Text style={[styles.navText, item.active && styles.activeNavText]}>
+              {item.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
+      <StatusBar style="auto" />
     </View>
   );
 };
@@ -67,35 +81,31 @@ const DetailsScreen = ({ route }) => {
   const [numColumns, setNumColumns] = useState(3);
   const [photoSize, setPhotoSize] = useState(0);
 
-  const photos = [
-    'https://kampatour.com/pic/blog/images/ks1.jpg',
-    'https://kampatour.com/pic/blog/images/ks1.jpg',
-    'https://kampatour.com/pic/blog/images/ks1.jpg',
-    'https://kampatour.com/pic/blog/images/ks1.jpg',
-    'https://kampatour.com/pic/blog/images/ks1.jpg',
-    'https://kampatour.com/pic/blog/images/ks1.jpg',
-  ];
+  const photos = Array(6).fill(place.image);
 
   useEffect(() => {
     const updateLayout = () => {
       const { width } = Dimensions.get('window');
-      const newNumColumns = width > 600 ? 4 : 3; // Use 4 columns for larger screens
+      const newNumColumns = width > 600 ? 4 : 3;
       setNumColumns(newNumColumns);
-      const newPhotoSize = (width - 40) / newNumColumns; // 40 is total horizontal padding
-      setPhotoSize(newPhotoSize);
+      setPhotoSize((width - 40) / newNumColumns);
     };
 
     updateLayout();
-    Dimensions.addEventListener('change', updateLayout);
+    const subscription = Dimensions.addEventListener('change', updateLayout);
 
     return () => {
-      Dimensions.removeEventListener('change', updateLayout);
+      subscription?.remove();
     };
   }, []);
 
   return (
     <ScrollView style={styles.detailsContainer}>
-      <Image source={{ uri: place.image }} style={styles.detailsImage} />
+      <Image 
+        source={{ uri: place.image }} 
+        style={styles.detailsImage}
+        resizeMode="cover"
+      />
       <View style={styles.detailsHeader}>
         <Text style={styles.detailsTitle}>{place.name}</Text>
         <View style={styles.ratingContainer}>
@@ -113,34 +123,35 @@ const DetailsScreen = ({ route }) => {
         its rugged landscape.
       </Text>
       <Text style={styles.photosTitle}>PHOTOS</Text>
-      <FlatList
-        data={photos}
-        numColumns={numColumns}
-        renderItem={({ item }) => (
+      <View style={styles.photoGrid}>
+        {photos.map((photo, index) => (
           <Image 
-            source={{ uri: item }} 
-            style={[styles.photoItem, { width: photoSize, height: photoSize }]} 
+            key={index}
+            source={{ uri: photo }} 
+            style={[styles.photoItem, { width: photoSize, height: photoSize }]}
+            resizeMode="cover"
           />
-        )}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.photoList}
-      />
-      <View style={{ height: 60 }} /> {/* Spacer for navbar */}
-      <StatusBar style="auto" />
+        ))}
+      </View>
+      <View style={styles.spacer} />
     </ScrollView>
   );
 };
 
-export default function App() {
+const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen 
+          name="Home" 
+          component={HomeScreen} 
+          options={{ headerShown: false }} 
+        />
         <Stack.Screen name="Details" component={DetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -157,7 +168,7 @@ const styles = StyleSheet.create({
   image: {
     width: 40,
     height: 40,
-    borderRadius: 150,
+    borderRadius: 20,
     alignSelf: 'flex-end',
     margin: 5,
   },
@@ -167,33 +178,40 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom: 20,
     backgroundColor: '#ECECEC',
-    color: '#A9A9A9',
   },
   subTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
   },
+  listContainer: {
+    paddingBottom: 80,
+  },
   placeItem: {
     flex: 1,
     margin: 5,
-    alignItems: 'center',
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    elevation: 3,
+
   },
   placeImage: {
     width: '100%',
     height: 100,
     borderRadius: 10,
   },
+  placeTextContainer: {
+    padding: 8,
+  },
   placeName: {
-    marginTop: 5,
-    textAlign: 'center',
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   placeDescription: {
-    textAlign: 'center',
     fontSize: 12,
     color: '#A9A9A9',
+    textAlign: 'center',
   },
   detailsContainer: {
     flex: 1,
@@ -214,7 +232,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   ratingContainer: {
-    flexDirection: 'column',
     alignItems: 'flex-end',
   },
   detailsRating: {
@@ -245,7 +262,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 10,
   },
-  photoList: {
+  photoGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     padding: 5,
   },
   photoItem: {
@@ -263,7 +282,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     borderTopWidth: 1,
-    borderColor: '#ccc',
+    borderTopColor: '#ccc',
   },
   navButton: {
     justifyContent: 'center',
@@ -273,5 +292,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#000',
     marginTop: 4,
+  },
+  activeNavText: {
+    color: '#007BFF',
+  },
+  spacer: {
+    height: 60,
   },
 });
