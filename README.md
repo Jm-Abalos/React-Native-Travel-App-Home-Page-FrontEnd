@@ -35,5 +35,6 @@ If you have any images or resources, they should be placed inside the assets fol
 If you encounter a "connection timeout" issue when running on a physical device, ensure your phone and computer are on the same network, or use a tunnel URL provided by Expo.
 
 If you are running on a web browser on your computer/laptop make sure to install:
+<br>
 npx expo install react-native-web react-dom @expo/metro-runtime
 
