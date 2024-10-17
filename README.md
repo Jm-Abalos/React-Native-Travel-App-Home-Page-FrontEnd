@@ -6,5 +6,5 @@
 >npx create-expo-app@latest my-app --template blank@latest <br>
 >(follow the steps needed to install expo)
 >
->3rd start expo app
+>3rd start expo app <br>
 >npx expo start
