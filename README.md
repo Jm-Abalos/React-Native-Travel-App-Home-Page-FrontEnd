@@ -17,6 +17,7 @@ npx create-expo-app@latest (name-of-your-folder) --template blank@latest <br>
 
 ### 3. Install Required Dependencies
 After creating your Expo app, navigate into your project folder and install the necessary dependencies by running these commands in your terminal: <br>
+
 npm install @react-navigation/native <br>
 npm install @react-navigation/stack <br>
 npm install react-native-gesture-handler <br>
