@@ -2,7 +2,7 @@
 
 >1st install nodejs
 >
->2nd install create expo app \n
+>2nd install create expo app <br>
 >npx create-expo-app@latest my-app --template blank@latest
 >(follow the steps needed to install expo)
 >
