@@ -1,13 +1,27 @@
-# React-Native-Travel-App-Home-Page-FrontEnd-
+# Travel App
 
->1st install nodejs
->
->2nd install create expo app <br>
->npx create-expo-app@latest (name of your folder) --template blank@latest <br>
->(follow the steps needed to install expo)
->
->3rd start expo app <br>
->npx expo start
+A simple travel app built using Expo and React Native.
 
-4th replace your App.js file and paste paste the GitHub App.js file to your code. <br>
-(When adding photos make your it is inside the assets folder)
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) installed on your machine.
+
+## Installation Steps
+
+### 1. Install Node.js
+
+First, make sure you have Node.js installed. If not, you can download and install it from the [official website](https://nodejs.org/).
+
+### 2. Create an Expo App
+
+Run the following command to create a new Expo app using a blank template:
+
+npx create-expo-app@latest (name-of-your-folder) --template blank@latest <br>
+(Follow all the installions and instructions when shown on the terminal)
+
+### 3. Start Expo App
+npx expo start
+
+### 4. Replace App.js with Your Code
+Replace the existing App.js file in your project with the code provided in this repository. Make sure to include any assets such as images in the assets folder of your project.
+If you have any images or resources, they should be placed inside the assets folder and referenced correctly in your code.
