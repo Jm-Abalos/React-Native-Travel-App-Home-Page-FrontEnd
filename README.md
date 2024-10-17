@@ -13,7 +13,7 @@ First, make sure you have Node.js installed. If not, you can download and instal
 Run the following command to create a new Expo app using a blank template:
 
 npx create-expo-app@latest (name-of-your-folder) --template blank@latest <br>
-(Follow all the installions and instructions when shown on the terminal)
+(Follow all the installations and instructions when shown on the terminal)
 
 ### 3. Install Required Dependencies
 After creating your Expo app, navigate into your project folder and install the necessary dependencies by running these commands in your terminal: <br>
