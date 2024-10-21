@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, FlatList, D
 import { StatusBar } from 'expo-status-bar';
 import profileImage from './assets/profile.jpeg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import styles from './styles'; // Adjust the path based on your folder structure
+import styles from './styles'; 
 
 const Stack = createStackNavigator();
 
